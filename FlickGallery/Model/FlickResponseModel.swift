@@ -18,7 +18,12 @@ struct FlickrPhotos: Codable {
 }
 
 struct Photo: Codable, Identifiable {
-   
+    
+    static func == (lhs: Photo, rhs: Photo) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    
     let id, owner,secret,server :String
     let farm: Int
     let title: String
@@ -28,14 +33,15 @@ struct Photo: Codable, Identifiable {
     let iconfarm: Int
     let tags: String
     let description: Description?
-   
-    var imageUrl: URL {
-//        URL(string: "\(APIEndpoint.baseImageURL)\(server)/\(id)_\(secret)_q.jpg")!
-        URL(string: "http://farm\(farm).static.flickr.com/\(server)/\(id)_\(secret).jpg")!
-    }
-
     
-/*http://farm\(farm).static.flickr.com/\(server)/\(id)_\(secret).jpg*/
+    
+    var imageUrl: URL {
+        let urlString = String(format: "\(APIEndpoint.baseImageURL)\(server)/\(id)_\(secret)_w.jpg")
+        return  URL(string:urlString )!
+    }
+    
+    
+    /*http://farm\(farm).static.flickr.com/\(server)/\(id)_\(secret).jpg*/
     struct Description: Codable {
         let _content: String
     }

@@ -17,9 +17,9 @@ enum APIEndpoint {
     static let nojsoncallback = "1"
     static let safe_search = "1"
     static let per_page = ""
-    static let extras = " tags,owner_name,icon_server,date_upload,date_taken,description"
+    static let extras = "tags,owner_name,icon_server,date_upload,date_taken,description"
    
-//    static let baseImageURL = "https://flickr.com/"
+    static let baseImageURL = "https://live.staticflickr.com/"
 
 
 }

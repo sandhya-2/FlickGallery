@@ -10,6 +10,59 @@ import SwiftUI
 struct SearchBarView: View {
     
     @Binding var searchText: String
+    @State private var isEditing = false
+        
+    var body: some View {
+        
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(!searchText.isEmpty ? Color.theme.secondaryText : .accentColor)
+                .opacity(isEditing ? 0.0 : 1.0)
+                
+            
+            TextField("Search by tags or text", text: $searchText, onEditingChanged: { editing in
+                isEditing = editing
+               
+            })
+                .foregroundColor(Color.theme.accent)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .onChange(of: searchText, { oldValue, newValue in
+                    isEditing = !newValue.isEmpty
+                    print("Search text changed: \(newValue)")
+                })
+                .overlay (
+                    Image(systemName: "xmark.circle.fill")
+                        .padding()
+                        .offset(x: 10)
+                        .foregroundColor(.accentColor)
+                        .opacity(searchText.isEmpty ? 0.0 : 1.0)
+                        .onTapGesture {
+                            UIApplication.shared.endEditing()
+                            searchText = ""
+                            isEditing = false
+                            
+                        }
+                    
+                    ,alignment: .trailing
+                )
+        }
+        .font(.headline)
+            .padding()
+            .background(
+                //
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.theme.background)
+                    .shadow(color: Color.theme.accent.opacity(0.15), radius: 10, x: 0, y: 0)
+            ).padding()
+        
+    }
+        
+}
+
+/*struct SearchBarView: View {
+    
+    @Binding var searchText: String
     @FocusState private var focus: Bool
     @State private var isEditing = false
     
@@ -20,8 +73,9 @@ struct SearchBarView: View {
             TextField("Search", text: $searchText)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
+                .focused($focus)
                 .padding(.leading, 40)
-                .frame(height: 40).background(
+                .frame(width: 360, height: 40).background(
                     RoundedRectangle(cornerRadius: 10).strokeBorder(Color.black, style: StrokeStyle(lineWidth: 1.0))
                         .font(.subheadline)
                 )
@@ -29,8 +83,6 @@ struct SearchBarView: View {
                     isEditing = !searchText.isEmpty
                     print("Search text changed: \(newValue)")
                 })
-                .focused($focus)
-            
                 .overlay(
                     
                     HStack{
@@ -42,7 +94,6 @@ struct SearchBarView: View {
                         
                         if !searchText.isEmpty {
                             
-        
                             Image(systemName: "xmark.circle.fill")
                                 .padding()
                                 .offset(x: 10)
@@ -65,7 +116,7 @@ struct SearchBarView: View {
         }
         .onAppear {
             focus = true
-        }
+        
         
         
         
@@ -108,10 +159,12 @@ struct SearchBarView: View {
         
     }
 }
+*/
+
 
 #Preview {
     
-    SearchBarView(searchText: .constant(""))
+    SearchBarView(searchText: .constant("yorkshire"))
 }
 
 

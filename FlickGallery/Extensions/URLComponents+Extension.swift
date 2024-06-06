@@ -34,7 +34,7 @@ extension URLComponents {
             components.queryItems?.append(URLQueryItem(name: "tags", value: searchText))
             components.queryItems?.append(URLQueryItem(name: "per_page", value: "20"))
             components.queryItems?.append(URLQueryItem(name: "page", value: "\(page)"))
-        print("photo url *******\(components)")
+//        print("photo url *******\(components)")
             return components.url!
         }
     

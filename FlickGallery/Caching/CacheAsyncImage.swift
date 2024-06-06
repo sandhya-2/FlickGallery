@@ -6,7 +6,6 @@
 //
 
 import UIKit
-
 import SwiftUI
 
 struct CacheAsyncImage<Content>: View where Content: View {
@@ -49,3 +48,4 @@ struct CacheAsyncImage<Content>: View where Content: View {
             return content(phase)
         }
 }
+
