@@ -9,6 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel = PhotoViewModel(networkManager: NetworkManager())
+    @State var iDselected: Bool = false
+    @State var nameSelected: Bool = false
+    @State var user_id: String = ""
     
     var body: some View {
         
@@ -28,7 +31,7 @@ struct HomeView: View {
                                 let photo = photos[index]
                                 let photoInfo = photosInfo[index]
                                 
-                                NavigationLink(destination: PhotoDetailView(photo: photo, photoInfo: photoInfo)) {
+                                NavigationLink(destination: PhotoDetailView(photo: photo, photoInfo: photoInfo, idSelected: $iDselected, userNameSelected: $nameSelected, selectedUserID: user_id)) {
                                     PhotoCardView(photo: photo, userInfo: photoInfo)
                                         .padding(10)
                                         

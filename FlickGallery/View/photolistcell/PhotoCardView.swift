@@ -19,6 +19,8 @@ struct PhotoCardView: View {
             VStack(alignment: .leading) {
                 
                 CacheImageView(imageSource: .photo(photo))
+                    .clipped()
+                    .padding()
                     .padding(.bottom, 2)
                 
                 let user = userInfo.owner
@@ -26,14 +28,14 @@ struct PhotoCardView: View {
                     //user icon
                    CacheImageView(imageSource: .photoInfo(userInfo))
         
-                   
                     ///User id
                     Text(user.nsid ?? "")
                         .font(.subheadline)
                         .foregroundColor(Color.theme.accent)
                         .fontWeight(.heavy)
-                        
+                    
                     Spacer()
+                    
                 }
             
                 Text("#\(photo.tags)")

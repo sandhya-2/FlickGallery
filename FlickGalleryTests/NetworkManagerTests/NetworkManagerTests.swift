@@ -63,5 +63,19 @@ final class NetworkManagerTests: XCTestCase {
             XCTAssertEqual(error as! NetworkError, NetworkError.dataNotFound)
         }
     }
+    
+    /*when API fails with invalid request with empty string*/
+    func testGetPhotosWhenRequestIsEmptyStringAndYouDontGetData() async {
+        do {
+            //Given
+            mockNetworking.error =  NetworkError.invalidURL
+            
+            //When
+            _ = try await networkManager.get(url: URL(string: " ")!)
+         
+        } catch {
+            XCTAssertEqual(error as! NetworkError, NetworkError.dataNotFound)
+        }
+    }
 
 }

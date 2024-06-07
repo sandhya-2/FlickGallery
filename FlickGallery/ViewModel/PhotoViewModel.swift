@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 class PhotoViewModel: ObservableObject {
     
     var networkManager = NetworkManager()
@@ -17,8 +16,11 @@ class PhotoViewModel: ObservableObject {
     @Published var photosInfoList: [PhotoInfo] = []
     @Published var totalPages: Int = 0
     @Published var currentPage = 1
-
-    
+    var colummnGrid: [GridItem] = [
+        GridItem(.adaptive(minimum: 200))
+    ]
+    @Published var selectedID: String = "" 
+    @Published var selectedUsername = ""
     @Published var searchString: String
     
     {
@@ -74,6 +76,8 @@ class PhotoViewModel: ObservableObject {
             }
         }
     }
+    
+   
 
 /* filter by text or tag*/
     var filteredPhotos: [Photo] {
@@ -92,6 +96,25 @@ class PhotoViewModel: ObservableObject {
         }
     }
     
+    var searchPhoto: [Photo] {
+        guard !selectedID.isEmpty else {
+            
+            return listOfPhotos
+        }
+        
+        return listOfPhotos.filter { $0.owner == selectedID }
+    }
+
+
+        var searchPhotosUser: [Photo] {
+            guard !selectedUsername.isEmpty else {
+                return listOfPhotos
+            }
+            
+            return listOfPhotos.filter { $0.ownername == selectedUsername }
+        }
+    
+   
     // MARK: - Pagination
 //    @MainActor
     func getPhotos(searchText: String, page: Int) async {
@@ -217,14 +240,14 @@ class PhotoViewModel: ObservableObject {
         return fetchUserIconUrl(iconfarm: photoInfo.owner.iconfarm, iconserver: photoInfo.owner.iconserver, userId: photoInfo.owner.nsid ?? defaultNsid)
     }
     
-    func resetAndSearch() async {
-        currentPage = 1
-        await MainActor.run {
-            listOfPhotos.removeAll()
-        }
-        await getPhotos(searchText: searchString, page: currentPage)
-    }
-    
+//    func resetAndSearch() async {
+//        currentPage = 1
+//        await MainActor.run {
+//            listOfPhotos.removeAll()
+//        }
+//        await getPhotos(searchText: searchString, page: currentPage)
+//    }
+//    
     
     
 }

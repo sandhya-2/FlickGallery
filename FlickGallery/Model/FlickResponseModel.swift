@@ -27,7 +27,7 @@ struct Photo: Codable, Identifiable {
     let id, owner,secret,server :String
     let farm: Int
     let title: String
-    let ispublic, isfriend, isfamily : Int
+//    let ispublic, isfriend, isfamily : Int
     let dateupload, datetaken,datetakenunknown: String
     let ownername,iconserver: String
     let iconfarm: Int

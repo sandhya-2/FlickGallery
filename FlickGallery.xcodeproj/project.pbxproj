@@ -13,7 +13,7 @@
 		FA1B3EC22C1113D4000AF5DD /* CacheImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1B3EC12C1113D3000AF5DD /* CacheImageView.swift */; };
 		FA1B3EC52C11926E000AF5DD /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1B3EC42C11926E000AF5DD /* Color.swift */; };
 		FACE06892C0E22D8009FF182 /* URLComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACE06882C0E22D8009FF182 /* URLComponents+Extension.swift */; };
-		FACE068B2C0E5967009FF182 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACE068A2C0E5967009FF182 /* ErrorView.swift */; };
+		FACE068B2C0E5967009FF182 /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACE068A2C0E5967009FF182 /* PhotoGridView.swift */; };
 		FACE068F2C0F86C3009FF182 /* PhotoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACE068E2C0F86C2009FF182 /* PhotoCardView.swift */; };
 		FACE06912C10359A009FF182 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACE06902C10359A009FF182 /* UIApplication+Extension.swift */; };
 		FACE06932C103843009FF182 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACE06922C103843009FF182 /* HomeView.swift */; };
@@ -32,6 +32,9 @@
 		FAE3579F2C122D9D00BE258D /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE3579E2C122D9D00BE258D /* NetworkManagerTests.swift */; };
 		FAE357A12C122DC100BE258D /* MockNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE357A02C122DC100BE258D /* MockNetworking.swift */; };
 		FAE357A32C122DE500BE258D /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE357A22C122DE500BE258D /* MockNetworkManager.swift */; };
+		FAE357A72C12714500BE258D /* UserIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE357A62C12714500BE258D /* UserIDView.swift */; };
+		FAE357A92C127CDB00BE258D /* UserNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE357A82C127CDB00BE258D /* UserNameView.swift */; };
+		FAE357AB2C127FDB00BE258D /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE357AA2C127FDB00BE258D /* GridCell.swift */; };
 		FAFB2E862C0A74AA00363278 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB2E852C0A74AA00363278 /* PhotoViewModel.swift */; };
 		FAFB2E892C0BFC3F00363278 /* PhotoUserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB2E882C0BFC3F00363278 /* PhotoUserInfoModel.swift */; };
 		FAFB2E8C2C0CC79500363278 /* CacheAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB2E8B2C0CC79400363278 /* CacheAsyncImage.swift */; };
@@ -63,7 +66,7 @@
 		FA1B3EC12C1113D3000AF5DD /* CacheImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheImageView.swift; sourceTree = "<group>"; };
 		FA1B3EC42C11926E000AF5DD /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		FACE06882C0E22D8009FF182 /* URLComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+Extension.swift"; sourceTree = "<group>"; };
-		FACE068A2C0E5967009FF182 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		FACE068A2C0E5967009FF182 /* PhotoGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridView.swift; sourceTree = "<group>"; };
 		FACE068E2C0F86C2009FF182 /* PhotoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCardView.swift; sourceTree = "<group>"; };
 		FACE06902C10359A009FF182 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		FACE06922C103843009FF182 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -85,6 +88,9 @@
 		FAE3579E2C122D9D00BE258D /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		FAE357A02C122DC100BE258D /* MockNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworking.swift; sourceTree = "<group>"; };
 		FAE357A22C122DE500BE258D /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
+		FAE357A62C12714500BE258D /* UserIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIDView.swift; sourceTree = "<group>"; };
+		FAE357A82C127CDB00BE258D /* UserNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameView.swift; sourceTree = "<group>"; };
+		FAE357AA2C127FDB00BE258D /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		FAFB2E852C0A74AA00363278 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 		FAFB2E872C0BB4E900363278 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FAFB2E882C0BFC3F00363278 /* PhotoUserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUserInfoModel.swift; sourceTree = "<group>"; };
@@ -132,6 +138,9 @@
 				FACE068E2C0F86C2009FF182 /* PhotoCardView.swift */,
 				FA1B3EB42C10F870000AF5DD /* PhotoDetailView.swift */,
 				FA1B3EBB2C10F988000AF5DD /* CardGroupBoxStyle.swift */,
+				FAE357A62C12714500BE258D /* UserIDView.swift */,
+				FAE357A82C127CDB00BE258D /* UserNameView.swift */,
+				FAE357AA2C127FDB00BE258D /* GridCell.swift */,
 			);
 			path = photolistcell;
 			sourceTree = "<group>";
@@ -194,6 +203,7 @@
 		FAD794DD2C0A272600D2508D /* FlickGalleryTests */ = {
 			isa = PBXGroup;
 			children = (
+				FAE357A42C12312500BE258D /* Stub */,
 				FAE3579C2C122D5500BE258D /* Mock */,
 				FAE3579D2C122D6F00BE258D /* NetworkManagerTests */,
 				FAD794DE2C0A272600D2508D /* FlickGalleryTests.swift */,
@@ -230,12 +240,11 @@
 		FAD794FB2C0A29F600D2508D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FAE357A52C124DEE00BE258D /* HomeScreen */,
 				FA1B3EB32C10F81F000AF5DD /* photolistcell */,
 				FAD794CF2C0A271D00D2508D /* ContentView.swift */,
 				FAD794CD2C0A271D00D2508D /* FlickGalleryApp.swift */,
-				FAFB2E972C0CF4DE00363278 /* SearchBarView.swift */,
-				FACE068A2C0E5967009FF182 /* ErrorView.swift */,
-				FACE06922C103843009FF182 /* HomeView.swift */,
+				FACE068A2C0E5967009FF182 /* PhotoGridView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -266,6 +275,22 @@
 				FAE3579E2C122D9D00BE258D /* NetworkManagerTests.swift */,
 			);
 			path = NetworkManagerTests;
+			sourceTree = "<group>";
+		};
+		FAE357A42C12312500BE258D /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
+		FAE357A52C124DEE00BE258D /* HomeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				FACE06922C103843009FF182 /* HomeView.swift */,
+				FAFB2E972C0CF4DE00363278 /* SearchBarView.swift */,
+			);
+			path = HomeScreen;
 			sourceTree = "<group>";
 		};
 		FAFB2E8A2C0CC76200363278 /* Caching */ = {
@@ -408,6 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAE357A92C127CDB00BE258D /* UserNameView.swift in Sources */,
 				FAFB2E8C2C0CC79500363278 /* CacheAsyncImage.swift in Sources */,
 				FAD795042C0A6D5D00D2508D /* APIEndpoint.swift in Sources */,
 				FA1B3EC52C11926E000AF5DD /* Color.swift in Sources */,
@@ -416,6 +442,7 @@
 				FACE068F2C0F86C3009FF182 /* PhotoCardView.swift in Sources */,
 				FACE06892C0E22D8009FF182 /* URLComponents+Extension.swift in Sources */,
 				FAD795002C0A6C1200D2508D /* Networking.swift in Sources */,
+				FAE357AB2C127FDB00BE258D /* GridCell.swift in Sources */,
 				FA1B3EBC2C10F988000AF5DD /* CardGroupBoxStyle.swift in Sources */,
 				FAD794F92C0A279500D2508D /* FlickResponseModel.swift in Sources */,
 				FAFB2E922C0CCC1A00363278 /* ImageCache.swift in Sources */,
@@ -423,7 +450,8 @@
 				FAD795022C0A6C6D00D2508D /* NetworkError.swift in Sources */,
 				FAFB2E862C0A74AA00363278 /* PhotoViewModel.swift in Sources */,
 				FAD794D02C0A271D00D2508D /* ContentView.swift in Sources */,
-				FACE068B2C0E5967009FF182 /* ErrorView.swift in Sources */,
+				FAE357A72C12714500BE258D /* UserIDView.swift in Sources */,
+				FACE068B2C0E5967009FF182 /* PhotoGridView.swift in Sources */,
 				FAFB2E982C0CF4DE00363278 /* SearchBarView.swift in Sources */,
 				FAD794CE2C0A271D00D2508D /* FlickGalleryApp.swift in Sources */,
 				FA17509F2C121EAC00BB07C4 /* CircleButtonView.swift in Sources */,

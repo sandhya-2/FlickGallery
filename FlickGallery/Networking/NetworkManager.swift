@@ -17,8 +17,7 @@ class NetworkManager: Networkable {
     init(urlSession: Networking = URLSession.shared) {
         self.urlSession = urlSession
     }
-
-
+    
     func get(url: URL) async throws -> Data {
         
         do {
