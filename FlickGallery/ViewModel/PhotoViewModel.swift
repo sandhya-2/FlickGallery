@@ -35,9 +35,7 @@ class PhotoViewModel: ObservableObject {
         self.networkManager = networkManager
         self.searchString = "yorkshire"
         
-        Task {
-            await fetchInitialData()
-        }
+       
     }
     
     func loadMorePhotos() async {
@@ -60,7 +58,8 @@ class PhotoViewModel: ObservableObject {
         
     }
     
-    var filteredPhotosInfo: [PhotoInfo] {
+    /*filter photo by text/tags/username*/
+  /*  var filteredPhotosInfo: [PhotoInfo] {
         if searchString.isEmpty {
             return photosInfoList
         } else {
@@ -76,42 +75,55 @@ class PhotoViewModel: ObservableObject {
             }
         }
     }
+    */
     
-   
-
-/* filter by text or tag*/
-    var filteredPhotos: [Photo] {
-        
-        let lowerCasedText = searchString.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if lowerCasedText.isEmpty || lowerCasedText.count <= 2 {
+    var filteredPhotosInfo: [PhotoInfo] {
+          if searchString.isEmpty {
+              return photosInfoList
+          } else {
+              return photosInfoList.filter { photo in
+                  let ownerMatches = photo.owner.nsid?.contains(searchString) ?? false ||
+                      photo.owner.username?.localizedCaseInsensitiveContains(searchString) ?? false
+                  
+                  let tagsMatch = photo.tags?.tag.contains { tag in
+                      tag.raw?.localizedCaseInsensitiveContains(searchString) ?? false ||
+                      tag.content?.localizedCaseInsensitiveContains(searchString) ?? false ||
+                      tag.author?.localizedCaseInsensitiveContains(searchString) ?? false ||
+                      tag.authorname?.localizedCaseInsensitiveContains(searchString) ?? false
+                  } ?? false
+                  
+                  return ownerMatches || tagsMatch
+              }
+          }
+      }
+  
+    
+    var filteredPhotoByID: [Photo] {
+        guard searchString.isEmpty else {
+            
             return listOfPhotos
-        } else {
-            
-            return listOfPhotos.filter {  $0.tags.localizedCaseInsensitiveContains(lowerCasedText) ||
-                $0.owner.localizedCaseInsensitiveContains(lowerCasedText) 
-                
         }
-            
-        }
+        
+        return listOfPhotos.filter {  $0.id.localizedCaseInsensitiveContains(searchString) || $0.owner.localizedCaseInsensitiveContains(searchString) }
     }
     
-    var searchPhoto: [Photo] {
-        guard !selectedID.isEmpty else {
-            
-            return listOfPhotos
-        }
-        
-        return listOfPhotos.filter { $0.owner == selectedID }
-    }
+//    var searchPhoto: [Photo] {
+//        guard !selectedID.isEmpty else {
+//            
+//            return listOfPhotos
+//        }
+//        
+//        return listOfPhotos.filter { $0.owner == selectedID }
+//    }
 
 
-        var searchPhotosUser: [Photo] {
+        var searchPhotoInfo: [PhotoInfo] {
             guard !selectedUsername.isEmpty else {
-                return listOfPhotos
+                
+                return photosInfoList
             }
             
-            return listOfPhotos.filter { $0.ownername == selectedUsername }
+            return photosInfoList.filter { ($0.owner.nsid != nil) || $0.owner.username == selectedUsername }
         }
     
    
@@ -137,11 +149,12 @@ class PhotoViewModel: ObservableObject {
                 self?.totalPages = flickrResponse.photos.pages ?? 1
                 self?.currentPage += 1
             }
-           
-            print("currentpage getphotos() :  \(self.currentPage)")
-            print("total page getphotos():  \(self.totalPages)")
-            //                print("photos list : \(self.listOfPhotos)")
-            //                print("photos id : \(self.photoIDs)")
+
+
+//            print("currentpage getphotos() :  \(self.currentPage)")
+//            print("total page getphotos():  \(self.totalPages)")
+                            print("photos list : \(self.listOfPhotos)")
+                            print("photos id : \(self.photoIDs)")
             
             await getPhotosInfo()
             
@@ -214,7 +227,7 @@ class PhotoViewModel: ObservableObject {
                     self?.photosInfoList.append(flickrUserResponse.photo)
 
                 }
-                //                print("photoslistInfo: \(self.photosInfoList)")
+                                print("photoslistInfo: \(self.photosInfoList)")
                 
             } catch {
                 print("Failed to fetch photos: \(error)")

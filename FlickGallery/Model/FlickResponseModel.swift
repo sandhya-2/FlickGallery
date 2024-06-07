@@ -8,7 +8,49 @@
 /*The response model of flickr.photos.getInfo */
 import Foundation
 
+import Foundation
+
+// MARK: - Welcome
 struct FlickResponse: Codable {
+    let photos: Photos
+    let stat: String
+}
+
+// MARK: - Photos
+struct Photos: Codable {
+    let page, pages, perpage, total: Int?
+    let photo: [Photo]
+}
+
+// MARK: - Photo
+struct Photo: Codable {
+    let id, owner, secret, server: String
+    let farm: Int
+    let title: String
+    let ispublic, isfriend, isfamily: Int
+
+    var imageUrl: URL {
+        let urlString = String(format: "\(APIEndpoint.baseImageURL)\(server)/\(id)_\(secret)_w.jpg")
+        return  URL(string:urlString )!
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*struct FlickResponse: Codable {
     let photos: FlickrPhotos
 }
 
@@ -27,7 +69,7 @@ struct Photo: Codable, Identifiable {
     let id, owner,secret,server :String
     let farm: Int
     let title: String
-//    let ispublic, isfriend, isfamily : Int
+    let ispublic, isfriend, isfamily : Int
     let dateupload, datetaken,datetakenunknown: String
     let ownername,iconserver: String
     let iconfarm: Int
@@ -46,5 +88,5 @@ struct Photo: Codable, Identifiable {
         let _content: String
     }
 }
-
+*/
 

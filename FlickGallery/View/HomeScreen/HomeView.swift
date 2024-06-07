@@ -11,7 +11,8 @@ struct HomeView: View {
     @ObservedObject var viewModel = PhotoViewModel(networkManager: NetworkManager())
     @State var iDselected: Bool = false
     @State var nameSelected: Bool = false
-    @State var user_id: String = ""
+    @State var userId: String = ""
+    @State var userName: String = ""
     
     var body: some View {
         
@@ -22,16 +23,14 @@ struct HomeView: View {
                     .padding(4)
                 Spacer()
                 ScrollView(.vertical) {
+                    
                     LazyVStack {
-                        let photos = viewModel.filteredPhotos
+                        let photos = viewModel.filteredPhotoByID
                         let photosInfo = viewModel.filteredPhotosInfo
                         
-                        ForEach(0..<photos.count, id: \.self) { index in
-                            if index < photosInfo.count {
-                                let photo = photos[index]
-                                let photoInfo = photosInfo[index]
-                                
-                                NavigationLink(destination: PhotoDetailView(photo: photo, photoInfo: photoInfo, idSelected: $iDselected, userNameSelected: $nameSelected, selectedUserID: user_id)) {
+                        ForEach(Array(zip(photos, photosInfo)), id: \.0.id) { photo, photoInfo in
+                            
+                            NavigationLink(destination: PhotoDetailView(photo: photo, photoInfo: photoInfo, idSelected: $iDselected, userNameSelected: $nameSelected, selectedUserID: userId, selectedUsername: userName) ) {
                                     PhotoCardView(photo: photo, userInfo: photoInfo)
                                         .padding(10)
                                         
@@ -47,18 +46,22 @@ struct HomeView: View {
                                     }
                                 }
                         }
-                    }
+            }.onAppear {
+                Task {
+                    await viewModel.fetchInitialData()
+                }
+            }
                 }
                 .padding(5)
                 .navigationTitle("Photo Gallery")
                 .navigationBarTitleDisplayMode(.automatic)
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Text("\(viewModel.filteredPhotos.count) photos in current page \(viewModel.currentPage)")
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem(placement: .bottomBar) {
+//                        Text("\(viewModel.filteredPhotos.count) photos in current page \(viewModel.currentPage)")
+//                    }
+//                }
                
-            }
+//            }
         }
     }
 }

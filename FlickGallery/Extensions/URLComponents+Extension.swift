@@ -17,8 +17,8 @@ extension URLComponents {
             URLQueryItem(name: "api_key", value: APIEndpoint.api_key),
             URLQueryItem(name: "format", value: APIEndpoint.format),
             URLQueryItem(name: "nojsoncallback", value: APIEndpoint.nojsoncallback),
-            URLQueryItem(name: "safe_search", value: APIEndpoint.safe_search),
-            URLQueryItem(name: "extras", value: APIEndpoint.extras)
+            URLQueryItem(name: "safe_search", value: APIEndpoint.safe_search)
+//            URLQueryItem(name: "extras", value: APIEndpoint.extras)
         ]
         
         return components
@@ -32,9 +32,9 @@ extension URLComponents {
             components.queryItems?.append(URLQueryItem(name: "method", value: APIEndpoint.method))
             components.queryItems?.append(URLQueryItem(name: "text", value: searchText))
             components.queryItems?.append(URLQueryItem(name: "tags", value: searchText))
-            components.queryItems?.append(URLQueryItem(name: "per_page", value: "20"))
+            components.queryItems?.append(URLQueryItem(name: "per_page", value: "5"))
             components.queryItems?.append(URLQueryItem(name: "page", value: "\(page)"))
-//        print("photo url *******\(components)")
+        print("photo url *******\(components)")
             return components.url!
         }
     

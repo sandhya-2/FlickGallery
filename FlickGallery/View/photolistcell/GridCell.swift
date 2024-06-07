@@ -10,6 +10,7 @@ import SwiftUI
 struct GridCell: View {
     
     let photo: Photo
+    let photoInfo: PhotoInfo
     
     var body: some View {
         
@@ -25,8 +26,10 @@ struct GridCell: View {
                     Text(photo.owner)
                         .font(.callout)
                         .fontWeight(.semibold)
+                    
                     Spacer()
-                    Text(photo.ownername)
+                    
+                    Text(photoInfo.owner.realname ?? "")
                         .multilineTextAlignment(.leading)
                         .font(.callout)
                         .fontWeight(.semibold)

@@ -15,26 +15,36 @@ struct UserIDView: View {
     var colummnGrid: [GridItem] = [
         GridItem(.adaptive(minimum: 200))
     ]
-   
-    var body: some View {
     
-            HStack {
-                detailHeader
-            }
-            
-            ScrollView {
+    var body: some View {
+        
+        HStack {
+            detailHeader
+        }
+    
+        ScrollView {
+            VStack {
+                Text("I ma here")
+                let photoID = viewModel.filteredPhotoByID
+                let photoUser = viewModel.searchPhotoInfo
                 
                 LazyVGrid(columns: colummnGrid, spacing: 20) {
                     
-                    ForEach(viewModel.searchPhoto, id: \.id){ photo in
-                                                
-                        GridCell(photo: photo)
+                    ForEach(Array(zip(photoID, photoUser)), id: \.0.id){ photo, photoInfo in
+                        
+                        GridCell(photo: photo, photoInfo: photoInfo)
                             .padding(10)
                         
                     }
                 }.padding(10)
-                    
-                    
+                
+                
+                
+                
+            }
+            
+            
+            
             Spacer()
         }
         

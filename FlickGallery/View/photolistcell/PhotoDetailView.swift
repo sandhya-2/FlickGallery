@@ -14,10 +14,7 @@ struct PhotoDetailView: View {
     @Binding var userNameSelected: Bool
     @State var selectedUserID: String = ""
     @State var selectedUsername: String = ""
-    @ObservedObject var viewModel = PhotoViewModel(networkManager: NetworkManager())
-    
-
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
         
@@ -66,6 +63,7 @@ struct PhotoDetailView: View {
 extension PhotoDetailView {
     
     private var detailHeader: some View {
+        
         HStack {
             CircleButtonView(iconName: "chevron.left")
                 .onTapGesture {
@@ -100,9 +98,9 @@ extension PhotoDetailView {
                     .foregroundColor(Color.theme.redColor)
                     .font(.largeTitle)
                     .fontWeight(.semibold)
+                   
                 
-                                
-                Text("user_id: \(photoInfo.owner.nsid ?? "NA")")
+                Text(photoInfo.owner.nsid ?? "")
                     .font(.title3)
                     .foregroundColor(Color.theme.secondaryText)
                     .onTapGesture {
@@ -111,15 +109,8 @@ extension PhotoDetailView {
                         
                     }
                 
-                Text("Username: \(photoInfo.owner.username ?? "NA")")
-                    .font(.title3)
-                    .foregroundColor(Color.theme.secondaryText)
-                    .onTapGesture {
-                        userNameSelected.toggle()
-                        print("tapped")
-                    }
                 
-                Text("Date taken: \(photo.datetaken)")
+                Text("Date taken: \(photoInfo.dates.taken)")
                     .font(.caption)
                     .foregroundColor(Color.theme.secondaryText)
                 
@@ -132,21 +123,24 @@ extension PhotoDetailView {
         
         VStack(alignment: .leading, spacing: 8){
             
-            Text("#\(photo.tags)")
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .padding(1)
+            Text(photoInfo.owner.username ?? "")
+                .font(.title3)
+                .foregroundColor(Color.theme.accent)
+                .onTapGesture {
+                    userNameSelected.toggle()
+                    print("tapped")
+                }
             
             Text("#\(photoInfo.tags?.tag.first?.content ?? "NA")")
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .padding(1)
             
-            Text("Author: \(photoInfo.tags?.tag.first?.authorname ?? "NA")")
+            Text("author: \(photoInfo.tags?.tag.first?.authorname ?? "NA")")
                 .font(.subheadline)
                 .padding(1)
             
-            Text(photo.description?._content ?? "NA")
+            Text(photoInfo.description.content ?? "NA")
                 .font(.subheadline)
                 
         }

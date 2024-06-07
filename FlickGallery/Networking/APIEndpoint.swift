@@ -12,7 +12,7 @@ enum APIEndpoint {
     static let baseURL = "https://www.flickr.com/services/rest/"
     static let method = "flickr.photos.search"
     static let methodInfo = "flickr.photos.getInfo"
-    static let api_key = "f0f4126da4d8f57b59654995d2a8adf4"
+    static let api_key = "cf3607d26a926a17c5bdba4eb13a31d7"
     static let format = "json"
     static let nojsoncallback = "1"
     static let safe_search = "1"

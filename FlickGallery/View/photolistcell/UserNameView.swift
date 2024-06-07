@@ -22,21 +22,21 @@ struct UserNameView: View {
                 detailHeader
             }
             
-            ScrollView {
-                
-                LazyVGrid(columns: colummnGrid, spacing: 20) {
-                    
-                    ForEach(viewModel.searchPhotosUser, id: \.id){ photo in
-                                                
-                        GridCell(photo: photo)
-                            .padding(10)
-                        
-                    }
-                }.padding(10)
-                    
-                    
-            Spacer()
-        }
+//            ScrollView {
+//                
+//                LazyVGrid(columns: colummnGrid, spacing: 20) {
+//                    
+//                    ForEach(viewModel.searchPhotosUser, id: \.id){ photo in
+//                                                
+//                        GridCell(photo: photo)
+//                            .padding(10)
+//                        
+//                    }
+//                }.padding(10)
+//                    
+//                    
+//            Spacer()
+//        }
         
         
     }

@@ -38,7 +38,7 @@ struct PhotoCardView: View {
                     
                 }
             
-                Text("#\(photo.tags)")
+                Text(userInfo.comments.content ?? "")
                     .font(.caption)
                     .foregroundColor(Color.theme.greenColor)
                     .multilineTextAlignment(.leading)
