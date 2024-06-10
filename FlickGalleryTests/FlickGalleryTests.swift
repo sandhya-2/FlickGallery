@@ -9,27 +9,52 @@ import XCTest
 @testable import FlickGallery
 
 final class FlickGalleryTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    var viewModel: PhotoViewModel!
+    var apiEndpoint: APIEndpoint!
+    var mockNetworkManager: MockNetworkManager!
+    
+    @MainActor override func setUp() {
+        super.setUp()
+        apiEndpoint = APIEndpoint()
+        mockNetworkManager = MockNetworkManager()
+        viewModel = PhotoViewModel(apiEndpoint: apiEndpoint, networkManager: mockNetworkManager)
+        
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown() {
+        
+        viewModel = nil
+        mockNetworkManager = nil
+        super.tearDown()
+        
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+    func testGetPhotosSuccess() async throws {
+        let searchText = "yorkshire"
+        
+        let expectedPhotos = [
+            PhotoElement(id: "1", secret: "owner1", server: "secret1", farm: 66, owner: "1", title: "title1", ispublic: 1, isfriend: 0, isfamily: 0),
+            
+            PhotoElement(id: "2", secret: "owner2", server: "secret2", farm: 66, owner: "2", title: "title2", ispublic: 1, isfriend: 0, isfamily: 0)
+            
+            PhotoElement(id: "53614826416", secret: "ec915cb481", server: "65535", farm: 66, owner: "39627107@N07", title: "Gannets", ispublic: 1, isfriend: 0, isfamily: 0)
+        ]
+        
+        let expectedPhotosList =  PhotosImage(from: expectedPhotos)
+        let expectedPhotoSearch = FlickResponse(photos: expectedPhotosList)
+        
+        mockFlickrService.setFetchResult(result: Result<PhotoSearch, APIError>.success(expectedPhotoSearch))
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        do {
+            switch try await viewModel.getPhotos(searchText: searchText) {
+            case .success(let photos):
+                XCTAssertEqual(photos, expectedPhotoSearch)
+            case .failure(let error):
+                XCTFail("Expecting success\nGot \(error)")
+            }
+        } catch {
+            XCTFail("Unexpected error thrown: \(error)")
         }
     }
 

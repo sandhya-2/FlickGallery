@@ -9,52 +9,60 @@ import SwiftUI
 
 struct UserIDView: View {
     
+    let photo: PhotoElement
+    let userId: String
+    
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel = PhotoViewModel(networkManager: NetworkManager())
-    @State var selectedID: String = ""
-    var colummnGrid: [GridItem] = [
-        GridItem(.adaptive(minimum: 200))
-    ]
-    
     var body: some View {
         
-        HStack {
-            detailHeader
-        }
-    
-        ScrollView {
+        NavigationStack {
             VStack {
-                Text("I ma here")
-                let photoID = viewModel.filteredPhotoByID
-                let photoUser = viewModel.searchPhotoInfo
+                HStack {
+                    detailHeader
+                }
                 
-                LazyVGrid(columns: colummnGrid, spacing: 20) {
+                ScrollView {
                     
-                    ForEach(Array(zip(photoID, photoUser)), id: \.0.id){ photo, photoInfo in
+                    
+                    LazyVGrid(columns: viewModel.columnGrid, alignment: .center) {
                         
-                        GridCell(photo: photo, photoInfo: photoInfo)
-                            .padding(10)
+                        let photos = viewModel.getPhotosbyUserID
+                        ForEach(photos, id: \.self) { photo in
+                            
+                            NavigationLink(destination: PhotoDetailView(photo: photo, viewModel: viewModel)) {
+                                CacheImageView(imageSource: .photo(photo))
+                                    .frame(width: (UIScreen.main.bounds.width - 45) / 3, height: (UIScreen.main.bounds.width - 45) / 3)
+                                    .cornerRadius(5)
+                            }
+                            
+                            
+                        }
                         
                     }
+                    
                 }.padding(10)
-                
-                
-                
-                
+                    .onAppear{
+                        Task {
+                            
+                            try await viewModel.getPhotosByUser(userId: photo.owner)
+                            
+                        }
+                    }
             }
             
-            
-            
             Spacer()
-        }
+        }.navigationBarBackButtonHidden(true)
         
         
     }
+    
 }
 
-//#Preview {
-//    UserIDView(selectedUserID: )
-//}
+#Preview {
+    
+    UserDetailView(photo: PhotoElement(id: "53543508966", secret: "14d2928f14", server: "65535", farm: 66, owner: "39627107@N07", title: "Blackbird with attitude", ispublic: 1, isfriend: 0, isfamily: 0), viewModel: PhotoViewModel(networkManager: NetworkManager()))
+}
 
 extension UserIDView {
     
@@ -65,7 +73,7 @@ extension UserIDView {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
-            Text("User ID")
+            Text("Photos by UserID")
                 .font(.headline)
                 .fontWeight(.heavy)
                 .foregroundColor(Color.theme.accent)
@@ -93,4 +101,5 @@ extension UserIDView {
         }
     }
 }
+
 

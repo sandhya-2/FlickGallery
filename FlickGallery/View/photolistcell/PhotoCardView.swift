@@ -8,54 +8,68 @@
 import SwiftUI
 
 struct PhotoCardView: View {
-    let photo: Photo
-    let userInfo: PhotoInfo
+    
+    let photo: PhotoElement
     @ObservedObject var viewModel = PhotoViewModel(networkManager: NetworkManager())
     
     var body: some View {
-    
+        
         GroupBox {
             
             VStack(alignment: .leading) {
                 
                 CacheImageView(imageSource: .photo(photo))
                     .clipped()
-                    .padding()
+                    .padding(2)
                     .padding(.bottom, 2)
                 
-                let user = userInfo.owner
                 HStack {
+                    
                     //user icon
-                   CacheImageView(imageSource: .photoInfo(userInfo))
-        
-                    ///User id
-                    Text(user.nsid ?? "")
-                        .font(.subheadline)
-                        .foregroundColor(Color.theme.accent)
-                        .fontWeight(.heavy)
+                    if let personDetails = viewModel.personDetailsList {
+                        HStack {
+                            IconView(personDetail: personDetails)
+                        }
+                    }
                     
-                    Spacer()
-                    
-                }
-            
-                Text(userInfo.comments.content ?? "")
-                    .font(.caption)
-                    .foregroundColor(Color.theme.greenColor)
-                    .multilineTextAlignment(.leading)
-                    .bold()
-                    .padding(.bottom, 5)
+                    //userid
+                    Text(photo.owner)
+                        .font(.caption)
+                        .foregroundColor(Color.theme.greenColor)
+                        .multilineTextAlignment(.leading)
+                        .bold()
+                        .padding(.leading, 5)
+                }.padding(4)
+                
+                
                 Spacer()
                 
-            }.padding(.horizontal, 5)
+            }.padding(.horizontal, 5).onAppear{
+                Task {
+                    try await viewModel.getPersonDetails(userId: photo.owner)
                     
-        }
-        .groupBoxStyle( CardGroupBoxStyle())
+                }
+            }
+            
+                
+        }.padding(5)
+            .groupBoxStyle( CardGroupBoxStyle())
+        
     }
 }
 
 
 
-//#Preview {
-//    PhotoListItem(photo: Photo(id: "1234567890", owner: "ownerID", secret: "secretString", server: "", farm: 1, title: "Photo Title", ispublic: 1, isfriend: 0, isfamily: 0, dateupload: "2024-06-03", datetaken: "2024-06-03 12:00:00", datetakenunknown: "0", ownername: "Owner Name", iconserver: "iconServer", iconfarm: 1, tags: "tag1,tag2", description: nil), userInfo: PhotoInfo(id: <#T##String?#>, secret: <#T##String?#>, server: <#T##String?#>, farm: <#T##Int#>, dateuploaded: <#T##String#>, isfavorite: <#T##Int#>, license: <#T##String#>, safetyLevel: <#T##String?#>, rotation: <#T##Int#>, originalsecret: <#T##String?#>, originalformat: <#T##String?#>, owner: <#T##Owner#>, title: <#T##Comments#>, description: <#T##Comments#>, visibility: <#T##Geoperms#>, dates: <#T##Dates#>, views: <#T##String#>, editability: <#T##Editability#>, publiceditability: <#T##Editability#>, usage: <#T##Usage#>, comments: <#T##Comments#>, notes: <#T##Notes?#>, people: <#T##People?#>, tags: <#T##Tags?#>, location: <#T##Location?#>, geoperms: <#T##Geoperms?#>, urls: <#T##Urls#>, media: <#T##String#>))
-//}
+#Preview {
+    PhotoCardView(photo: PhotoElement(id: "51678339752", secret: "4c2fb7ec26", server: "65535", farm: 66, owner: "34207648@N07", title: "Gannet collecting nesting material - (Morus bassanus) - 2 clicks for LARGE", ispublic: 1, isfriend: 0, isfamily: 0), viewModel: PhotoViewModel(networkManager: NetworkManager()))
+}
+
+struct IconView: View {
+    let personDetail: PersonDetails
+    var body: some View {
+        
+        CacheImageView(imageSource: .user(personDetail))
+        
+    }
+}
 

@@ -14,63 +14,73 @@ struct HomeView: View {
     @State var userId: String = ""
     @State var userName: String = ""
     
+    
     var body: some View {
-        
-        
         NavigationStack {
+            HStack(alignment: .center) {
+                Text("Photo Gallery")
+                    .font(.headline)
+                    .fontWeight(.heavy)
+            }.padding()
+            .foregroundColor(Color.theme.accent)
+            
+            
+        
             VStack {
                 SearchBarView(searchText: $viewModel.searchString)
                     .padding(4)
+                    .onChange(of: viewModel.searchString) { oldValue, newValue in
+                        Task {
+                                try await viewModel.getPhotos(searchText: newValue)
+                           
+                        }
+                    }
+                
                 Spacer()
+                
                 ScrollView(.vertical) {
-                    
                     LazyVStack {
-                        let photos = viewModel.filteredPhotoByID
-                        let photosInfo = viewModel.filteredPhotosInfo
                         
-                        ForEach(Array(zip(photos, photosInfo)), id: \.0.id) { photo, photoInfo in
-                            
-                            NavigationLink(destination: PhotoDetailView(photo: photo, photoInfo: photoInfo, idSelected: $iDselected, userNameSelected: $nameSelected, selectedUserID: userId, selectedUsername: userName) ) {
-                                    PhotoCardView(photo: photo, userInfo: photoInfo)
-                                        .padding(10)
-                                        
-                                }
+                       
+                        let filterPhotos = viewModel.filteredPhotos
+                        
+                        
+                        
+                        ForEach(filterPhotos, id: \.id) { photo in
+                            NavigationLink(destination: PhotoDetailView(photo: photo)) {
+                                PhotoCardView(photo: photo)
+                                    .padding(10)
                             }
                         }
                         
-                        if viewModel.currentPage <= viewModel.totalPages {
-                            ProgressView()
-                                .onAppear {
-                                    Task {
-                                        await viewModel.loadMorePhotos()
-                                    }
-                                }
-                        }
-            }.onAppear {
-                Task {
-                    await viewModel.fetchInitialData()
+                    }
                 }
+                .padding()
+                
             }
-                }
-                .padding(5)
-                .navigationTitle("Photo Gallery")
-                .navigationBarTitleDisplayMode(.automatic)
-//                .toolbar {
-//                    ToolbarItem(placement: .bottomBar) {
-//                        Text("\(viewModel.filteredPhotos.count) photos in current page \(viewModel.currentPage)")
-//                    }
-//                }
-               
-//            }
+            .padding(.horizontal, 5)
         }
+        .onAppear{
+            Task {
+                try await viewModel.getPhotos(searchText: viewModel.searchString)
+            }
+        }
+        .onSubmit {
+            Task {
+                try await viewModel.getPhotos(searchText: viewModel.searchString)
+            }
+        }
+        
+        
     }
 }
 
-    
-#Preview {
-    HomeView()
-}
-    
+
+//
+//#Preview {
+////    HomeView(, photo: <#PhotoDetails#>)
+//}
+//
 
 
 

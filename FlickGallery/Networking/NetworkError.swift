@@ -11,6 +11,7 @@ enum NetworkError: Error{
     case invalidURL
     case parsingError
     case dataNotFound
+    case mockError
 }
 
 extension NetworkError:LocalizedError{
@@ -22,6 +23,8 @@ extension NetworkError:LocalizedError{
             return NSLocalizedString("Parsing Error", comment: "parsingError")
         case .dataNotFound:
             return NSLocalizedString("DataNot Found", comment: "dataNotFound")
+        case .mockError:
+            return NSLocalizedString("Mock Error", comment: "mock error!")
         }
     }
 }

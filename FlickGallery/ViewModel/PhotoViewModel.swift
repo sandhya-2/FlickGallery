@@ -7,264 +7,113 @@
 
 import SwiftUI
 
+@MainActor
 class PhotoViewModel: ObservableObject {
     
-    var networkManager = NetworkManager()
-    @Published var listOfPhotos: [Photo] = []
-    @Published var photoIDs: [String] = []
-    @Published var photoURLs: [URL] = []
-    @Published var photosInfoList: [PhotoInfo] = []
-    @Published var totalPages: Int = 0
-    @Published var currentPage = 1
+    private var apiEndpoint = APIEndpoint()
+    private var networkManager: NetworkManager
+    @Published var photoElementList: [PhotoElement] = []
+    @Published var photosList: [Person] = []
+    @Published var personDetailsList: PersonDetails?
+    @Published var photoDetailsList: PhotoDetails?
+    @Published var authorDetailList: [PhotoElement] = []
     var colummnGrid: [GridItem] = [
         GridItem(.adaptive(minimum: 200))
     ]
-    @Published var selectedID: String = "" 
-    @Published var selectedUsername = ""
-    @Published var searchString: String
-    
-    {
-        didSet {
-            Task {
-                await getPhotos(searchText: searchString, page: self.currentPage)
-            }
-        }
-    }
-    
-    init(networkManager: NetworkManager) {
-        self.networkManager = networkManager
-        self.searchString = "yorkshire"
-        
-       
-    }
-    
-    func loadMorePhotos() async {
-        guard currentPage < totalPages else { return }
-        await getPhotos(searchText: self.searchString, page: self.currentPage)
-    }
-    // MARK: - Data Fetching
-    
-    func fetchInitialData() async {
-        
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await self.getPhotos(searchText: self.searchString, page: self.currentPage)
-            }
-            group.addTask {
-                await self.fetchPhotoInfoUrls()
-            }
-            
-        }
-        
-    }
-    
-    /*filter photo by text/tags/username*/
-  /*  var filteredPhotosInfo: [PhotoInfo] {
-        if searchString.isEmpty {
-            return photosInfoList
-        } else {
-            return photosInfoList.filter { photoInfo in
-                let lowercasedSearchString = searchString.lowercased()
-                let ownerMatches = photoInfo.owner.nsid?.localizedCaseInsensitiveContains(lowercasedSearchString) ?? false ||
-                    photoInfo.owner.username?.localizedCaseInsensitiveContains(lowercasedSearchString) ?? false
-                let tagMatches = photoInfo.tags?.tag.contains { tag in
-                    guard let content = tag.content else { return false }
-                    return content.localizedCaseInsensitiveContains(lowercasedSearchString)
-                } ?? false
-                return ownerMatches || tagMatches
-            }
-        }
-    }
-    */
-    
-    var filteredPhotosInfo: [PhotoInfo] {
-          if searchString.isEmpty {
-              return photosInfoList
-          } else {
-              return photosInfoList.filter { photo in
-                  let ownerMatches = photo.owner.nsid?.contains(searchString) ?? false ||
-                      photo.owner.username?.localizedCaseInsensitiveContains(searchString) ?? false
-                  
-                  let tagsMatch = photo.tags?.tag.contains { tag in
-                      tag.raw?.localizedCaseInsensitiveContains(searchString) ?? false ||
-                      tag.content?.localizedCaseInsensitiveContains(searchString) ?? false ||
-                      tag.author?.localizedCaseInsensitiveContains(searchString) ?? false ||
-                      tag.authorname?.localizedCaseInsensitiveContains(searchString) ?? false
-                  } ?? false
-                  
-                  return ownerMatches || tagsMatch
-              }
-          }
-      }
-  
-    
-    var filteredPhotoByID: [Photo] {
-        guard searchString.isEmpty else {
-            
-            return listOfPhotos
-        }
-        
-        return listOfPhotos.filter {  $0.id.localizedCaseInsensitiveContains(searchString) || $0.owner.localizedCaseInsensitiveContains(searchString) }
-    }
-    
-//    var searchPhoto: [Photo] {
-//        guard !selectedID.isEmpty else {
-//            
-//            return listOfPhotos
-//        }
-//        
-//        return listOfPhotos.filter { $0.owner == selectedID }
-//    }
-
-
-        var searchPhotoInfo: [PhotoInfo] {
-            guard !selectedUsername.isEmpty else {
-                
-                return photosInfoList
-            }
-            
-            return photosInfoList.filter { ($0.owner.nsid != nil) || $0.owner.username == selectedUsername }
-        }
-    
+    @Published var selectedID: String?
+    @Published var searchString: String = "yorkshire"
+    var columnGrid:[GridItem] = Array(repeating:.init(.flexible()), count: 3)
    
-    // MARK: - Pagination
-//    @MainActor
-    func getPhotos(searchText: String, page: Int) async {
-        print("Loading photos..............")
-        do {
-            let data = try await fetchData(text: searchText, page: page)
-            let flickrResponse = try JSONDecoder().decode(FlickResponse.self, from: data)
-            let ids = flickrResponse.photos.photo.map { $0.id }
+    init(apiEndpoint: APIEndpoint = APIEndpoint(), networkManager: NetworkManager = NetworkManager()) {
+        self.apiEndpoint = apiEndpoint
+        self.networkManager = networkManager
+               
+    }
+    
+    /* photo search by text/tags */
+    var filteredPhotos: [PhotoElement] {
+        guard searchString.isEmpty else {
+            return photoElementList
+        }
+        return photoElementList.filter {
+            $0.owner.localizedCaseInsensitiveContains(searchString)
+        }
+    }
+    
+    var getPhotosbyUserID: [PhotoElement] {
+        guard ((selectedID?.isEmpty) != nil) else {
+            return authorDetailList
+        }
+        return authorDetailList.filter{ $0.owner.localizedCaseInsensitiveContains(selectedID ?? "")}
+    }
+    
+    func getPhotos(searchText: String) async throws -> Result<FlickResponse, NetworkError> {
+        let url = apiEndpoint.urlString(method: "flickr.photos.search",
+                                        params: "&tags=tags&text=\(searchText)&safe_search=1")
+        
+        print("url string :\(url)")
+        switch try await networkManager.getModel(FlickResponse.self, url: url) {
+        case .success(let photos):
             
-            DispatchQueue.main.async { [weak self] in
-                
-                if page == 1 {
-                    self?.listOfPhotos = flickrResponse.photos.photo
-                } else {
-                    
-                    self?.listOfPhotos.append(contentsOf: flickrResponse.photos.photo)
-                    
-                }
-                self?.photoIDs.append(contentsOf: ids)
-                self?.totalPages = flickrResponse.photos.pages ?? 1
-                self?.currentPage += 1
-            }
+            self.photoElementList = photos.photos.photo ?? []
+            
+            return Result.success(photos)
+        case .failure(let error):
+            return Result.failure(error)
+        }
+    }
+    
 
-
-//            print("currentpage getphotos() :  \(self.currentPage)")
-//            print("total page getphotos():  \(self.totalPages)")
-                            print("photos list : \(self.listOfPhotos)")
-                            print("photos id : \(self.photoIDs)")
+    func getPhotoDetail(photoId: String) async throws -> Result<PhotoDetails, NetworkError> {
+        let url = apiEndpoint.urlString(method: "flickr.photos.getInfo", params: "&photo_id=\(photoId)&safe_search=1")
+        switch try await networkManager.getModel(PhotoDetails.self, url: url) {
+        case .success(let photoDetail):
             
-            await getPhotosInfo()
-            
-        } catch {
-            print("Failed to fetch photos: \(error)")
-        }
-        
-        print("Finished Loading photos..............")
-    }
-    
-    func fetchData(text: String, page: Int) async throws -> Data {
-        
-        let urlString = URLComponents().buildURLForSearch(searchText: text, page: page)
-        
-        guard let url = URL(string: urlString.absoluteString) else {
-            throw NetworkError.invalidURL
-        }
-        
-        do {
-            let data = try await networkManager.get(url: url)
-            return data
-        } catch {
-            throw error
-        }
-    }
-    
-    
-    // MARK: - Photo Info Fetching
-    
-    func fetchPhotoInfoUrls() async {
-        for photoID in photoIDs {
-            do {
-                let _ = try await fetchPhotoInfo(photoID: photoID)
-                let photoURL = URLComponents().buildURLForPhotoInfo(photoId: photoID)
+            DispatchQueue.main.async {
                 
-                DispatchQueue.main.async { [weak self] in
-                    self?.photoURLs.append(photoURL)
-                }
-            } catch {
-                print("Error fetching photo info for ID: \(error)")
+                self.photoDetailsList = photoDetail
+        
             }
-        }
-    }
-    
-    func fetchPhotoInfo(photoID: String) async throws -> Data {
-        
-        let urlString = URLComponents().buildURLForPhotoInfo(photoId: photoID)
-        
-        guard let url = URL(string: urlString.absoluteString) else {
-            throw NetworkError.invalidURL
-        }
-        
-        do {
-            let data = try await networkManager.get(url: url)
             
-            return data
-        } catch {
-            throw error
+//            print(" details list printing \(photoDetail)")
+            return Result.success(photoDetail)
+        case .failure(let error):
+            print(error)
+            return Result.failure(error)
         }
     }
     
-    func getPhotosInfo() async {
-        print("Loading..............")
-        for photoID in photoIDs {
-            do {
-                let data = try await fetchPhotoInfo(photoID: photoID)
-                let flickrUserResponse = try JSONDecoder().decode(UserInfoResponse.self, from: data)
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.photosInfoList.append(flickrUserResponse.photo)
-
-                }
-                                print("photoslistInfo: \(self.photosInfoList)")
-                
-            } catch {
-                print("Failed to fetch photos: \(error)")
-            }
+    func getPersonDetails(userId: String) async throws -> Result<PersonDetails, NetworkError> {
+        let url = apiEndpoint.urlString(method: "flickr.people.getInfo", params: "&user_id=\(userId)&safe_search=1")
+        switch try await networkManager.getModel(PersonDetails.self, url: url) {
+        case .success(let details):
+            personDetailsList = details
+            return Result.success(details)
+        case .failure(let error):
+            print(error)
+            return Result.failure(error)
         }
-        print("Finished Loading..............")
     }
-    
-    /* this is the buddy icon for the usericon*/
-    func fetchUserIconUrl(iconfarm: Int, iconserver: String, userId: String) -> URL? {
-        if iconfarm > 0 {
-            return URL(string: "https://farm\(iconfarm).staticflickr.com/\(iconserver)/buddyicons/\(userId).jpg")
-            
-        } else {
-            return URL(string: "https://www.flickr.com/images/buddyicon.gif")
-        }
         
-    }
     
-    //user icon url
-    func userIconURL(for photoInfo: PhotoInfo) -> URL? {
-        let defaultNsid = "https://www.flickr.com/images/buddyicon.gif"
-        return fetchUserIconUrl(iconfarm: photoInfo.owner.iconfarm, iconserver: photoInfo.owner.iconserver, userId: photoInfo.owner.nsid ?? defaultNsid)
+    func getPhotosByUser(userId: String) async throws -> Result<FlickResponse, NetworkError> {
+        let url = apiEndpoint.urlString(method: "flickr.photos.search", params: "&user_id=\(userId)&safe_search=1")
+        switch try await networkManager.getModel(FlickResponse.self, url: url) {
+        case .success(let authorDetails):
+            
+            self.authorDetailList = authorDetails.photos.photo ?? []
+           
+            print("Updated authorDetailList: \(authorDetails)")
+            
+            return Result.success(authorDetails)
+        case .failure(let error):
+            print(error)
+            return Result.failure(error)
+        }
     }
-    
-//    func resetAndSearch() async {
-//        currentPage = 1
-//        await MainActor.run {
-//            listOfPhotos.removeAll()
-//        }
-//        await getPhotos(searchText: searchString, page: currentPage)
-//    }
-//    
     
     
 }
-
 
 
 
