@@ -4,13 +4,13 @@
 
 ## Features
 
--**Photo searching -** Searching of photos using keyword input in the search bar  and it filters relevant images from the Flickr API. 
--**Details Screen -** Click on any list item from the list displayed to view more details about that particular photo. The details includes its title, userid and the date along with the lists of tags associated with the photo.
--**Filtering by User ID -** If the user taps on a user ID displayed in Detail screen, the app filters and displays a new lists of photos associated with that specific user ID.
--**Grid View - ** User can navigate to detail screen by tapping on a grid cell to display the details of that photo. 
+- **Photo searching:** Searching of photos using keyword input in the search bar  and it filters relevant images from the Flickr API. 
+- **Details Screen:** Click on any list item from the list displayed to view more details about that particular photo. The details includes its title, userid and the date along with the lists of tags associated with the photo.
+- **Filtering by User ID:** If the user taps on a user ID displayed in Detail screen, the app filters and displays a new lists of photos associated with that specific user ID.
+- **Grid View:** User can navigate to detail screen by tapping on a grid cell to display the details of that photo. 
  
--**Default Search Text -** Upon launching the app, the default search text is set to "yorkshire". Therefore, the initial list displayed is based on the default search text. 
--**User friendly UI -** Built using SwiftUI, the app has user friendly interface along with smooth navigations between screens. 
+-**Default Search Text:** Upon launching the app, the default search text is set to "yorkshire". Therefore, the initial list displayed is based on the default search text. 
+-**User friendly UI:** Built using SwiftUI, the app has user friendly interface along with smooth navigations between screens. 
 
 # Framework
 SwiftUI has been is used. 
@@ -52,7 +52,7 @@ Can be used with Xcode 15.4
 # Screenshots
 
 |Home Screen|Detail Screen|UserID Screen|Unit tests|
-|---|---|---|---|
+|-------|-------|-------|-------|
 
 |<img width="200" alt="HomeScreen" src="https://github.com/sandhya-2/FlickGallery/assets/15943310/d3e45c98-5d50-4c6b-8aaf-7312bc72ac50">
 <img width="200" alt="DetailScreen" src="https://github.com/sandhya-2/FlickGallery/assets/15943310/c01d4c1b-33a3-46cd-851c-d2b189b82760">|
