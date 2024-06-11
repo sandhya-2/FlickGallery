@@ -19,7 +19,7 @@ struct SplashScreenView: View {
                     .scaledToFill()
                     .frame(width: 100, height: 100)
                 
-                Text("Photo Gallery")
+                Text("Flick Gallery")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(Color.theme.accent)
