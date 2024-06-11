@@ -36,7 +36,7 @@ The network requests are using async/await syntax which enables efficient asynch
 
 
 # Testing
-Unit tests for success and failure situations. Mocked responses using MockNetworkManager. Testing the Network Manager to ensure the network API call are run, and the data is received as expected with possible use cases. Added Tests for PhotoViewModel to ensure the business logic and functions are working as expected.
+Unit tests for success and failure situations. Mocked responses using MockNetworkManager. Testing the Network Manager to ensure the network API call are run, and the data is received as expected with possible use cases. PhotoViewModelTests are added to ensure the business logic and functions are working as expected.
 
 ## Installation
 
