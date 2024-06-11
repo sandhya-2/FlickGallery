@@ -1,6 +1,6 @@
 # FlickGalleryApp
 
-**PhotoGalleryApp** is an iOS application built in Swift and SwiftUI. It is designed to displays a list of photos using Flickr Api. Here is an overview of its functionality. 
+**FlickGalleryApp** is an iOS application built in Swift and SwiftUI. It is designed to displays a list of photos using Flickr Api. Here is an overview of its functionality. 
 
 ## Features
 
