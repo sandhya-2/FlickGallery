@@ -13,7 +13,7 @@ struct UserDetailView: View {
     var body: some View {
         
         VStack {
-           
+            
             HStack {
                 
                 if let personDetails = viewModel.personDetailsList {

@@ -51,14 +51,12 @@ struct PhotoCardView: View {
                 }
             }
             
-                
+            
         }.padding(5)
             .groupBoxStyle( CardGroupBoxStyle())
         
     }
 }
-
-
 
 #Preview {
     PhotoCardView(photo: PhotoElement(id: "51678339752", secret: "4c2fb7ec26", server: "65535", farm: 66, owner: "34207648@N07", title: "Gannet collecting nesting material - (Morus bassanus) - 2 clicks for LARGE", ispublic: 1, isfriend: 0, isfamily: 0), viewModel: PhotoViewModel(networkManager: NetworkManager()))

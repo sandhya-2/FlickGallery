@@ -21,13 +21,14 @@ class PhotoViewModel: ObservableObject {
         GridItem(.adaptive(minimum: 200))
     ]
     @Published var selectedID: String?
-    @Published var searchString: String = "yorkshire"
     var columnGrid:[GridItem] = Array(repeating:.init(.flexible()), count: 3)
-   
+    @Published var searchString: String = "yorkshire"
+    
+    
     init(apiEndpoint: APIEndpoint = APIEndpoint(), networkManager: NetworkManager = NetworkManager()) {
         self.apiEndpoint = apiEndpoint
         self.networkManager = networkManager
-               
+        
     }
     
     /* photo search by text/tags */
@@ -49,7 +50,7 @@ class PhotoViewModel: ObservableObject {
     
     func getPhotos(searchText: String) async throws -> Result<FlickResponse, NetworkError> {
         let url = apiEndpoint.urlString(method: "flickr.photos.search",
-                                        params: "&tags=tags&text=\(searchText)&safe_search=1")
+                                        params: "&tags=tags&text=\(searchText)&per_page=10&safe_search=1")
         
         print("url string :\(url)")
         switch try await networkManager.getModel(FlickResponse.self, url: url) {
@@ -63,19 +64,19 @@ class PhotoViewModel: ObservableObject {
         }
     }
     
-
+    
     func getPhotoDetail(photoId: String) async throws -> Result<PhotoDetails, NetworkError> {
-        let url = apiEndpoint.urlString(method: "flickr.photos.getInfo", params: "&photo_id=\(photoId)&safe_search=1")
+        let url = apiEndpoint.urlString(method: "flickr.photos.getInfo", params: "&photo_id=\(photoId)&per_page=10&safe_search=1")
         switch try await networkManager.getModel(PhotoDetails.self, url: url) {
         case .success(let photoDetail):
             
             DispatchQueue.main.async {
                 
                 self.photoDetailsList = photoDetail
-        
+                
             }
             
-//            print(" details list printing \(photoDetail)")
+            //            print(" details list printing \(photoDetail)")
             return Result.success(photoDetail)
         case .failure(let error):
             print(error)
@@ -84,7 +85,7 @@ class PhotoViewModel: ObservableObject {
     }
     
     func getPersonDetails(userId: String) async throws -> Result<PersonDetails, NetworkError> {
-        let url = apiEndpoint.urlString(method: "flickr.people.getInfo", params: "&user_id=\(userId)&safe_search=1")
+        let url = apiEndpoint.urlString(method: "flickr.people.getInfo", params: "&user_id=\(userId)&per_page=10&safe_search=1")
         switch try await networkManager.getModel(PersonDetails.self, url: url) {
         case .success(let details):
             personDetailsList = details
@@ -94,15 +95,15 @@ class PhotoViewModel: ObservableObject {
             return Result.failure(error)
         }
     }
-        
+    
     
     func getPhotosByUser(userId: String) async throws -> Result<FlickResponse, NetworkError> {
-        let url = apiEndpoint.urlString(method: "flickr.photos.search", params: "&user_id=\(userId)&safe_search=1")
+        let url = apiEndpoint.urlString(method: "flickr.photos.search", params: "&user_id=\(userId)&per_page=10&safe_search=1")
         switch try await networkManager.getModel(FlickResponse.self, url: url) {
         case .success(let authorDetails):
             
             self.authorDetailList = authorDetails.photos.photo ?? []
-           
+            
             print("Updated authorDetailList: \(authorDetails)")
             
             return Result.success(authorDetails)

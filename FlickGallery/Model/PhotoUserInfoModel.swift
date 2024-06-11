@@ -20,8 +20,8 @@ struct Person: Codable, Equatable  {
     var iconServer: String = ""
     var iconFarm: Int = 0
     var username: Description = Description(content: "")
-    var photosUrl: Description = Description(content: "")
-    var profileUrl: Description = Description(content: "")
+    // var photosUrl: Description = Description(content: "")
+    //var profileUrl: Description = Description(content: "")
     var photos: Photos = Photos(firstDateTaken: Description(content: ""))
     
     
@@ -34,7 +34,7 @@ struct Person: Codable, Equatable  {
         }
         return URL(string: urlString)!
     }
-
+    
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -42,8 +42,8 @@ struct Person: Codable, Equatable  {
         case iconServer = "iconserver"
         case iconFarm = "iconfarm"
         case username
-        case photosUrl = "photosurl"
-        case profileUrl = "profileurl"
+        // case photosUrl = "photosurl"
+        //case profileUrl = "profileurl"
         case photos
     }
 }
@@ -51,7 +51,7 @@ struct Person: Codable, Equatable  {
 // MARK: Description
 struct Description: Codable {
     var content: String = ""
-
+    
     enum CodingKeys: String, CodingKey {
         case content = "_content"
     }

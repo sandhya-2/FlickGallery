@@ -21,10 +21,10 @@ struct GridCell: View {
                     .frame(width: (UIScreen.main.bounds.width - 15), height: (UIScreen.main.bounds.width - 15))
                     .cornerRadius(5)
                 
-            
+                
             }.padding(10)
             Spacer()
-           
+            
         }.padding(10)
     }
 }

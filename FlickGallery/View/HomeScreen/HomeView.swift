@@ -14,7 +14,6 @@ struct HomeView: View {
     @State var userId: String = ""
     @State var userName: String = ""
     
-    
     var body: some View {
         NavigationStack {
             HStack(alignment: .center) {
@@ -30,6 +29,7 @@ struct HomeView: View {
                 SearchBarView(searchText: $viewModel.searchString)
                     .padding(4)
                     .onChange(of: viewModel.searchString) { oldValue, newValue in
+                        print(newValue)
                         Task {
                                 try await viewModel.getPhotos(searchText: newValue)
                            
@@ -42,7 +42,7 @@ struct HomeView: View {
                     LazyVStack {
                         
                        
-                        let filterPhotos = viewModel.filteredPhotos
+                        let filterPhotos = viewModel.photoElementList
                         
                         
                         
@@ -76,11 +76,10 @@ struct HomeView: View {
 }
 
 
-//
-//#Preview {
-////    HomeView(, photo: <#PhotoDetails#>)
-//}
-//
+#Preview {
+    HomeView()
+}
+
 
 
 
