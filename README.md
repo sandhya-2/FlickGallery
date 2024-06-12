@@ -51,9 +51,9 @@ Can be used with Xcode 15.4
 
 # Screenshots
 
-        Home Screen      |       Detail Screen        |        UserID Screen    |     Unit tests             
-|:----------------------:|:--------------------------:|:-----------------------:|:--------------------------:
-|<img width="100" alt="HomeScreen" src="https://github.com/sandhya-2/FlickGallery/assets/15943310/d3e45c98-5d50-4c6b-8aaf-7312bc72ac50">
+|    Home Screen    |       Detail Screen    |      UserID Screen    |     Unit tests       |  
+|-------------------|------------------------|-----------------------|----------------------|
+|<img width="100" alt="HomeScreen" src="https://github.com/sandhya-2/FlickGallery/assets/15943310/d3e45c98-5d50-4c6b-8aaf-7312bc72ac50">|
 <img width="100" alt="DetailScreen" src="https://github.com/sandhya-2/FlickGallery/assets/15943310/c01d4c1b-33a3-46cd-851c-d2b189b82760">|
 <img width="100" alt="GridView" src="https://github.com/sandhya-2/FlickGallery/assets/15943310/94e65653-d732-4c7e-8921-bae8e47be6d0">|
 <img width="100" alt="UnitTests" src="https://github.com/sandhya-2/FlickGallery/assets/15943310/db60fbcf-5e0e-4d7d-b143-719beeb1e721">|
